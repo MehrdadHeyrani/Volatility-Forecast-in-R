@@ -39,10 +39,13 @@ library(fGarch)
 library(rugarch)
 library(FinTS)
 library(forecast)
-setwd("E:/BOOK/Data and code") # set in your PC
+library(quantmod)      
+
 mydata = read.csv("ifbIndex.csv")
 
 y=diff(log(mydata[,2]))*100   # get returns and multiply them by 100
+
+
 ArchTest (y, lags=12)
 
 Fit=garchFit(~ garch(1,1), data = y,cond.dist="std")
@@ -63,13 +66,13 @@ predict(Fit, n.ahead = 10,plot=TRUE)
 ################### code 4-3 #######################
 
 nObs <- length(y)             # Total Number of observations
-from <- seq(1,200)            # in sample vector 
+from <- seq(1,200)            # In sample vector 
 to <- seq(201,414)            # Out of sample  vector fo
-Vol_vec <- rep(0,(nObs-200))  # Empty vector for storage of 214 Sigma estimates.
-Mean_vec <- rep(0,(nObs-200)) # Empty vector for storage of 214 Mean estimates.
+Vol_vec <- rep(0,(nObs-200))  # Empty vector for storage of 617 Sigma estimates.
+Mean_vec <- rep(0,(nObs-200)) # Empty vector for storage of 617 Mean estimates.
 
 for (i in 1:214){
-  # The rolling window of 1000 observations.
+  # The rolling window of 214 observations.
   data_insert <- y[from[i]:to[i]]
   # Fitting an AR(1)-GARCH(1,1) model with normal cond.dist.
   fitted_model <- garchFit(~ arma(1,0) + garch(1,1), data_insert,
@@ -81,9 +84,9 @@ for (i in 1:214){
   Vol_vec[i]  <- prediction_model$standardDeviation
   
   if (length(to)-i != 0){
-    print(c('Countdown, just',(length(to) - i),'iterations left'))
+    print(c('just',(length(to) - i),'iterations left'))
   } else {
-    print(c('Done!'))
+    print(c('End!'))
   }
 }
 
