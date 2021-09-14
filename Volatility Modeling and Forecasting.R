@@ -33,13 +33,6 @@
 ####################################################
 ####################################################
 
-####################################################
-####################################################
-##########                                ##########
-##########         Chapter 4              ##########
-##########                                ##########
-####################################################
-####################################################
 
 ################### code 4-1 #######################
 library(fGarch)
@@ -69,11 +62,11 @@ predict(Fit, n.ahead = 10,plot=TRUE)
 
 ################### code 4-3 #######################
 
-nObs <- length(y)             # Number of observations.
-from <- seq(1,200)            # Lower index vector for observations in model.
-to <- seq(201,414)            # Upper index vector for observations in model.
-Vol_vec <- rep(0,(nObs-200))  # Empty vector for storage of 414 Sigma estimates.
-Mean_vec <- rep(0,(nObs-200)) # Empty vector for storage of 414 Mean estimates.
+nObs <- length(y)             # Total Number of observations
+from <- seq(1,200)            # in sample vector 
+to <- seq(201,414)            # Out of sample  vector fo
+Vol_vec <- rep(0,(nObs-200))  # Empty vector for storage of 214 Sigma estimates.
+Mean_vec <- rep(0,(nObs-200)) # Empty vector for storage of 214 Mean estimates.
 
 for (i in 1:214){
   # The rolling window of 1000 observations.
@@ -113,11 +106,11 @@ spec = ugarchspec(variance.model=list(model="eGARCH", garchOrder=c(1,1)),
                   distribution.model="norm")
 
 fit = ugarchfit(data =y , spec = spec)
-par(mfrow = c(2, 1), mar = c(1.9, 4.3, 1.9, .5), mgp = c(2, .6, 0))
+par(mfrow = c(2, 2), mar = c(1.9, 4.3, 1.9, .5), mgp = c(2, .6, 0))
 
 plot(fit)
 
-bootp = ugarchboot(fit, method = c("Full"), out.sample = 10, n.ahead = 500, n.bootpred = 500) 
+bootp = ugarchboot(fit, method = c("Full"), out.sample = 10, n.ahead = 200, n.bootpred = 200) 
 show(bootp) 
 plot(bootp)
 
